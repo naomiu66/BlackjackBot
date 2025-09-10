@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  blackjackbot:
+    container_name: bot
+    image: ${DOCKER_REGISTRY-}blackjackbot
+    build:
+      context: .
+      dockerfile: BlackjackBot/Dockerfile
+  postgres:
+    container_name: database
+    image: postgres:latest
+
