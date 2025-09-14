@@ -4,7 +4,7 @@ using Telegram.Bot.Types;
 
 namespace BlackjackBot.Controllers
 {
-    [Route("api/telegram")]
+    [Route("telegram")]
     [ApiController]
     public class TelegramWebhookController : ControllerBase
     {

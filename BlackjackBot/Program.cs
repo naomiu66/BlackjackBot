@@ -1,5 +1,9 @@
 
 using BlackjackBot.Data;
+using BlackjackBot.Data.Repositories.Abstractions;
+using BlackjackBot.Data.Repositories.Implemenations;
+using BlackjackBot.Services.Abstractions;
+using BlackjackBot.Services.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 
@@ -28,6 +32,16 @@ namespace BlackjackBot
                     options.UseNpgsql(connectionString);
                 });
 
+            // Repositories
+            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<ISessionsRepository, SessionsRepository>();
+            builder.Services.AddScoped<IHandsRepository, HandsRepository>();
+
+            //Services
+            builder.Services.AddScoped<IUsersService, UsersService>();
+            builder.Services.AddScoped<ISessionsService, SessionsService>();
+            builder.Services.AddScoped<IHandsService, HandsService>();
+
             builder.Services.AddSingleton<ITelegramBotClient>(sp =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();
@@ -36,7 +50,7 @@ namespace BlackjackBot
                 return new TelegramBotClient(token);
             });
 
-            builder.WebHost.UseUrls("http://0.0.0.0:80");
+            //builder.WebHost.UseUrls("http://0.0.0.0:8080");
 
 
             var app = builder.Build();
@@ -54,7 +68,7 @@ namespace BlackjackBot
                 app.UseSwaggerUI();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
